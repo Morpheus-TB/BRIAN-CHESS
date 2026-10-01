@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f5ef">
+  <title>A little question for Tabitha</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+            display: ['Playfair Display', 'serif']
+          },
+          colors: {
+            ink: '#25231f',
+            paper: '#f8f5ef',
+            rose: '#bd635c',
+            moss: '#557260'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #f8f5ef;
+      background-image: radial-gradient(ellipse at 8% 15%, rgba(222, 195, 163, .32), transparent 34%), radial-gradient(ellipse at 94% 88%, rgba(184, 205, 184, .34), transparent 32%);
+    }
+    .grain {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.11'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .screen-enter { animation: enter .45s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    input[type="range"] { accent-color: #bd635c; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen overflow-x-hidden font-sans text-ink antialiased">
+  <div class="grain fixed inset-0 opacity-30" aria-hidden="true"></div>
+  <main class="relative flex min-h-screen items-center justify-center px-5 py-10 sm:px-8">
+    <div class="w-full max-w-xl">
+      <header class="mb-8 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-ink/50">
+        <span>A note for Tabitha</span>
+        <span id="stepLabel">From Brian, with feeling</span>
+      </header>
+
+      <div class="mb-5 h-1 overflow-hidden rounded-full bg-ink/10" aria-label="Progress">
+        <div id="progressBar" class="h-full w-0 rounded-full bg-rose transition-all duration-500"></div>
+      </div>
+
+      <section class="rounded-[1.75rem] border border-white/80 bg-white/75 p-7 shadow-[0_24px_80px_rgba(60,48,35,0.10)] backdrop-blur-sm sm:p-12">
+        <div id="welcomeScreen" class="screen-enter">
+          <div class="mb-8 flex h-14 w-14 items-center justify-center rounded-full bg-rose/10 text-2xl" aria-hidden="true">✦</div>
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-rose">Good evening</p>
+          <h1 class="font-display text-4xl leading-tight sm:text-5xl">A small question<br>for you, Tabitha.</h1>
+          <p class="mt-5 max-w-md text-base leading-7 text-ink/65">A few playful questions about us. Be honest, be yourself, and feel free to surprise me.</p>
+          <button type="button" onclick="showScreen('feelingScreen', 1, 'Your first impression')" class="mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-rose focus:outline-none focus:ring-4 focus:ring-rose/20">
+            Let the questions begin <span aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <div id="feelingScreen" class="hidden">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-rose">First impressions</p>
+          <h2 class="font-display text-3xl leading-snug sm:text-4xl">When we talk, what’s the vibe?</h2>
+          <p class="mt-4 text-sm leading-6 text-ink/60">Choose the one that feels most like you. No answer is a test.</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-2">
+            <button type="button" onclick="saveAnswer('feeling', 'You make me smile'); showScreen('qualityScreen', 2, 'The little things')" class="min-h-14 rounded-xl bg-moss px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#435f4d] focus:outline-none focus:ring-4 focus:ring-moss/20">You make me smile ✨</button>
+            <button type="button" onclick="saveAnswer('feeling', 'Easy and comfortable'); showScreen('qualityScreen', 2, 'The little things')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10">Easy and comfortable 🌿</button>
+            <button type="button" onclick="saveAnswer('feeling', 'A little mysterious'); showScreen('qualityScreen', 2, 'The little things')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10 sm:col-span-2">A little mysterious 👀</button>
+          </div>
+        </div>
+
+        <div id="qualityScreen" class="hidden">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-rose">The little things</p>
+          <h2 class="font-display text-3xl leading-snug sm:text-4xl">What do you appreciate most in someone?</h2>
+          <p class="mt-4 text-sm leading-6 text-ink/60">Everyone has their own kind of charm. What matters most to you?</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-2">
+            <button type="button" onclick="saveAnswer('quality', 'A good sense of humor'); showScreen('conversationScreen', 3, 'Getting to know you')" class="min-h-14 rounded-xl bg-moss px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#435f4d] focus:outline-none focus:ring-4 focus:ring-moss/20">A good sense of humor</button>
+            <button type="button" onclick="saveAnswer('quality', 'Kindness and warmth'); showScreen('conversationScreen', 3, 'Getting to know you')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10">Kindness and warmth</button>
+            <button type="button" onclick="saveAnswer('quality', 'Being genuine'); showScreen('conversationScreen', 3, 'Getting to know you')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10">Being genuine</button>
+            <button type="button" onclick="saveAnswer('quality', 'A little bit of everything'); showScreen('conversationScreen', 3, 'Getting to know you')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10">A little bit of everything</button>
+          </div>
+        </div>
+
+        <div id="conversationScreen" class="hidden">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-rose">Getting to know you</p>
+          <h2 class="font-display text-3xl leading-snug sm:text-4xl">What kind of conversation makes you lose track of time?</h2>
+          <p class="mt-4 text-sm leading-6 text-ink/60">Pick the one you’d happily keep chatting about.</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-2">
+            <button type="button" onclick="saveAnswer('conversation', 'Playful banter'); showScreen('interestScreen', 4, 'A little curiosity')" class="min-h-14 rounded-xl bg-moss px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#435f4d] focus:outline-none focus:ring-4 focus:ring-moss/20">Playful banter ✨</button>
+            <button type="button" onclick="saveAnswer('conversation', 'Real talk and big feelings'); showScreen('interestScreen', 4, 'A little curiosity')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10">Real talk and big feelings</button>
+            <button type="button" onclick="saveAnswer('conversation', 'Whatever makes us laugh'); showScreen('interestScreen', 4, 'A little curiosity')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10 sm:col-span-2">Whatever makes us laugh</button>
+          </div>
+        </div>
+
+        <div id="interestScreen" class="hidden">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-rose">A little curiosity</p>
+          <h2 class="font-display text-3xl leading-snug sm:text-4xl">Would you be open to getting to know me better?</h2>
+          <p class="mt-4 text-sm leading-6 text-ink/60">A yes, a maybe, or a no are all completely okay.</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-2">
+            <button type="button" onclick="saveAnswer('interest', 'Yes'); showScreen('ratingScreen', 5, 'Your totally honest rating')" class="min-h-14 rounded-xl bg-rose px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#a9514b] focus:outline-none focus:ring-4 focus:ring-rose/20">I’d like that</button>
+            <button type="button" onclick="saveAnswer('interest', 'Maybe'); showScreen('ratingScreen', 5, 'Your totally honest rating')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10">Maybe, let’s see</button>
+            <button type="button" onclick="saveAnswer('interest', 'No'); showScreen('ratingScreen', 5, 'Your totally honest rating')" class="min-h-14 rounded-xl border border-ink/15 bg-white px-5 py-4 text-sm font-semibold text-ink transition hover:border-rose/50 hover:bg-rose/5 focus:outline-none focus:ring-4 focus:ring-rose/10 sm:col-span-2">I’m not feeling it</button>
+          </div>
+        </div>
+
+        <div id="ratingScreen" class="hidden">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-rose">Last one</p>
+          <h2 class="font-display text-3xl leading-snug sm:text-4xl">Rate me out of 10.</h2>
+          <p class="mt-4 text-sm leading-6 text-ink/60">Completely optional in spirit; totally honest in practice.</p>
+          <div class="mt-8">
+            <div class="mb-4 flex items-end justify-between">
+              <span class="text-sm font-medium text-ink/55">Your rating</span>
+              <output id="ratingValue" for="rating" class="font-display text-5xl text-rose">7</output>
+            </div>
+            <input id="rating" type="range" min="1" max="10" value="7" class="h-2 w-full cursor-pointer rounded-lg" aria-label="Rate me from 1 to 10">
+            <div class="mt-2 flex justify-between text-xs text-ink/45"><span>1</span><span>10</span></div>
+          </div>
+          <button type="button" onclick="showResult()" class="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-rose focus:outline-none focus:ring-4 focus:ring-rose/20">Send my answer <span aria-hidden="true">→</span></button>
+        </div>
+
+        <div id="resultScreen" class="hidden text-center">
+          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-moss/10 text-3xl text-moss" aria-hidden="true">♡</div>
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-rose">That's all, thank you</p>
+          <h2 class="font-display text-3xl leading-snug sm:text-4xl">I appreciate your honesty.</h2>
+          <p class="mt-4 text-sm leading-6 text-ink/60">Here's what you picked:</p>
+          <dl class="mt-7 divide-y divide-ink/10 rounded-xl border border-ink/10 bg-paper/70 text-left">
+            <div class="flex items-center justify-between gap-4 px-5 py-4"><dt class="text-sm text-ink/60">Our conversation vibe</dt><dd id="feelingAnswer" class="text-right text-sm font-semibold"></dd></div>
+            <div class="flex items-center justify-between gap-4 px-5 py-4"><dt class="text-sm text-ink/60">What matters to you</dt><dd id="qualityAnswer" class="text-right text-sm font-semibold"></dd></div>
+            <div class="flex items-center justify-between gap-4 px-5 py-4"><dt class="text-sm text-ink/60">Your kind of conversation</dt><dd id="conversationAnswer" class="text-right text-sm font-semibold"></dd></div>
+            <div class="flex items-center justify-between gap-4 px-5 py-4"><dt class="text-sm text-ink/60">Open to getting to know me?</dt><dd id="interestAnswer" class="text-right text-sm font-semibold"></dd></div>
+            <div class="flex items-center justify-between gap-4 px-5 py-4"><dt class="text-sm text-ink/60">Your rating</dt><dd id="finalRating" class="text-sm font-semibold text-rose"></dd></div>
+          </dl>
+          <p class="mt-5 text-xs leading-5 text-ink/45">Your answers stay on this page; nothing is sent or stored.<BR> Screenshot your answers and share them as an image </p>
+        </div>
+      </section>
+
+      <footer class="mt-6 text-center text-xs text-ink/40">Made with a little courage <span aria-hidden="true">·</span> 2026</footer>
+    </div>
+  </main>
+
+  <script>
+    const answers = {};
+    const ratingInput = document.getElementById('rating');
+    const ratingValue = document.getElementById('ratingValue');
+
+    ratingInput.addEventListener('input', () => {
+      ratingValue.value = ratingInput.value;
+      ratingValue.textContent = ratingInput.value;
+    });
+
+    function saveAnswer(key, value) {
+      answers[key] = value;
+    }
+
+    function showScreen(screenId, progress, label) {
+      document.querySelectorAll('section > div').forEach((screen) => screen.classList.add('hidden'));
+      const screen = document.getElementById(screenId);
+      screen.classList.remove('hidden');
+      screen.classList.remove('screen-enter');
+      void screen.offsetWidth;
+      screen.classList.add('screen-enter');
+      document.getElementById('progressBar').style.width = `${(progress / 6) * 100}%`;
+      document.getElementById('stepLabel').textContent = label;
+    }
+
+    function showResult() {
+      document.getElementById('feelingAnswer').textContent = answers.feeling;
+      document.getElementById('qualityAnswer').textContent = answers.quality;
+      document.getElementById('conversationAnswer').textContent = answers.conversation;
+      document.getElementById('interestAnswer').textContent = answers.interest;
+      document.getElementById('finalRating').textContent = `${ratingInput.value} / 10`;
+      showScreen('resultScreen', 6, 'All done');
+    }
+  </script>
+</body>
+</html>
